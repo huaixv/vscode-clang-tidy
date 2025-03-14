@@ -2,7 +2,8 @@ import * as vscode from "vscode";
 import { runClangTidy, collectDiagnostics } from "./tidy";
 
 export async function lintActiveTextDocument(
-    loggingChannel: vscode.OutputChannel
+    loggingChannel: vscode.OutputChannel,
+    fixErrors: boolean
 ) {
     if (vscode.window.activeTextEditor === undefined) {
         return { document: undefined, diagnostics: [] };
@@ -13,7 +14,7 @@ export async function lintActiveTextDocument(
         diagnostics: await lintTextDocument(
             vscode.window.activeTextEditor.document,
             loggingChannel,
-            false
+            fixErrors
         ),
     };
 }

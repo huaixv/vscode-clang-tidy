@@ -42,7 +42,17 @@ export function activate(context: vscode.ExtensionContext) {
     }
 
     async function lintActiveDocAndSetDiagnostics() {
-        const diag = await lintActiveTextDocument(loggingChannel);
+        const diag = await lintActiveTextDocument(loggingChannel, false);
+        if (diag.document) {
+            if (diag.diagnostics.length === 0)
+                diagnosticCollection.delete(diag.document.uri);
+            else
+                diagnosticCollection.set(diag.document.uri, diag.diagnostics);
+        }
+    }
+
+    async function fixActiveDocAndSetDiagnostics() {
+        const diag = await lintActiveTextDocument(loggingChannel, true);
         if (diag.document) {
             if (diag.diagnostics.length === 0)
                 diagnosticCollection.delete(diag.document.uri);
@@ -90,6 +100,12 @@ export function activate(context: vscode.ExtensionContext) {
         commands.registerCommand(
             "clang-tidy.lintFile",
             lintActiveDocAndSetDiagnostics
+        )
+    );
+    subscriptions.push(
+        commands.registerCommand(
+            "clang-tidy.fixFile",
+            fixActiveDocAndSetDiagnostics
         )
     );
 

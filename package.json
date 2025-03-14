@@ -22,6 +22,7 @@
         "onLanguage:cpp",
         "onLanguage:c",
         "onCommand:clang-tidy.lintFile",
+        "onCommand:clang-tidy.fixFile",
         "workspaceContains:**/.clang-tidy"
     ],
     "main": "./out/extension.js",
@@ -30,6 +31,10 @@
             {
                 "command": "clang-tidy.lintFile",
                 "title": "Clang-Tidy: Lint File"
+            },
+            {
+                "command": "clang-tidy.fixFile",
+                "title": "Clang-Tidy: Fix File"
             }
         ],
         "configuration": {
